@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.e.oktalogin.databinding.FragmentHomeBinding
+import com.okta.oidc.clients.sessions.SessionClient
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private var sessionClient: SessionClient? = null
 
 
     override fun onCreateView(
@@ -19,6 +22,17 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater,container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.logoutButton.setOnClickListener {
+
+            sessionClient?.run {
+
+            }
+        }
     }
 
 }
