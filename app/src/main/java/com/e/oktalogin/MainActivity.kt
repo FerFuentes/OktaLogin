@@ -1,12 +1,10 @@
 package com.e.oktalogin
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.e.oktalogin.databinding.ActivityMainBinding
-import com.e.oktalogin.ui.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

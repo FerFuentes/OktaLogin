@@ -2,7 +2,7 @@ package com.e.oktalogin.managers.authentication
 
 enum class AuthenticationState {
     LOADING,
-    LOGIN,
-    LOGOUT,
-    HOME,
+    LOGIN_SUCCESS,
+    ERROR_ON_CREDENTIALS,
+    LOGOUT_SUCCESS
 }

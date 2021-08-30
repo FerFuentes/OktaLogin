@@ -1,4 +1,4 @@
-package com.e.oktalogin.ui
+package com.e.oktalogin.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -20,4 +20,7 @@ class LoginViewModel @Inject constructor(
     fun authenticateUser(user: String, password: String){
         authenticationManager.authenticateUser(user, password)
     }
+
+    fun userIsAuthenticated() = authenticationManager.userIsAuthenticated()
+
 }

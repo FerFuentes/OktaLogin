@@ -1,12 +1,15 @@
-package com.e.oktalogin.ui
+package com.e.oktalogin.ui.login
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.e.oktalogin.R
 import com.e.oktalogin.databinding.FragmentLoginBinding
 import com.e.oktalogin.managers.authentication.AuthenticationState
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,17 +42,18 @@ class LoginFragment : Fragment() {
             validateFields(user, password)
         }
 
+        if(loginViewModel.userIsAuthenticated()){
+            userAuthenticated()
+        }
+
         loginViewModel.authenticationState.observe(viewLifecycleOwner, {
             when(it){
                 AuthenticationState.LOADING -> binding.inProgress.show()
-                AuthenticationState.HOME -> userAuthenticated()
+                AuthenticationState.LOGIN_SUCCESS -> userAuthenticated()
+                AuthenticationState.ERROR_ON_CREDENTIALS -> showMessage(null, "Error Credentials")
                 else -> {}
             }
         })
-
-/*        if (authClient.sessionClient.isAuthenticated) {
-            userAuthenticated()
-        }*/
 
         binding.linkForgotPassword.setOnClickListener {
 
@@ -61,11 +65,23 @@ class LoginFragment : Fragment() {
     private fun validateFields(user: String, password: String) {
         user.isEmpty().or(password.isEmpty()).run {
             if (this) {
-
+                showMessage(null, "Your user and password are needed ")
             } else {
                 authenticateUser(user, password)
             }
         }
+    }
+
+    private fun showMessage(title: String?, message: String){
+        binding.inProgress.hide()
+        AlertDialog.Builder(requireActivity())
+            .setCancelable(false)
+            .setTitle(R.string.login)
+            .setMessage(message)
+            .setPositiveButton("ok") { _, _ ->
+
+            }
+            .show()
     }
 
     private fun authenticateUser(user: String, password: String) {
