@@ -7,4 +7,8 @@
     <string name="login">Login</string>
     <string name="forgot_password">Forgot password</string>
     <string name="logout">Logout</string>
+    <string name="auth0">Auth0</string>
+    <string name="okta">Okta</string>
+    <string name="com_auth0_domain">authenticationtestmovil.us.auth0.com</string>
+    <string name="com_auth0_scheme">authenticationtestmovil.us.auth0.com/android/com.e.oktalogin/callback</string>
 </resources>

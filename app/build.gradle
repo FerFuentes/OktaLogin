@@ -25,7 +25,9 @@ android {
 
         //Okta Login
         manifestPlaceholders = [
-                "appAuthRedirectScheme": "com.e.oktalogin-app"
+                appAuthRedirectScheme: "com.e.oktalogin-app",
+                auth0Domain          : "@string/com_auth0_domain",
+                auth0Scheme          : "demo"
         ]
         if (project.rootProject.file('local.properties').exists()) {
             Properties properties = new Properties()
@@ -70,6 +72,9 @@ dependencies {
     implementation("com.okta.authn.sdk:okta-authn-sdk-impl:$okta_version") {
         exclude group: 'com.okta.sdk', module: 'okta-sdk-httpclient'
     }
+
+    //auth0
+    implementation 'com.auth0.android:auth0:2.4.0'
 
     //lifecycle
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"

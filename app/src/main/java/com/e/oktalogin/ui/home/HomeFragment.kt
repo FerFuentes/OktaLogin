@@ -42,6 +42,7 @@ class HomeFragment : Fragment() {
 
         binding.logoutButton.setOnClickListener {
             homeViewModel.signOut()
+            homeViewModel.sigOutAuth(requireActivity())
         }
     }
 

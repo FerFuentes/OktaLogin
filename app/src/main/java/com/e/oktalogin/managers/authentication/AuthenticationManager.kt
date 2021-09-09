@@ -1,6 +1,13 @@
 package com.e.oktalogin.managers.authentication
 
 import android.content.Context
+import androidx.fragment.app.FragmentActivity
+import com.auth0.android.Auth0
+import com.auth0.android.authentication.AuthenticationException
+import com.auth0.android.callback.Callback
+import com.auth0.android.provider.WebAuthProvider
+import com.auth0.android.result.Credentials
+import com.e.oktalogin.R
 import com.e.oktalogin.di.ApplicationCoroutineScope
 import com.okta.authn.sdk.client.AuthenticationClient
 import com.okta.authn.sdk.resource.AuthenticationStatus
@@ -26,9 +33,38 @@ class AuthenticationManager @Inject constructor(
     private var config: OIDCConfig
 ) {
 
-    fun authenticateUser(user: String, password: String) {
+    private val account = Auth0(
+        "95ydIwyYuy6Gqj70mSDhfd1qsKiof8PV",
+        "authenticationtestmovil.us.auth0.com"
+    )
+
+    fun authenticateUser(context: FragmentActivity? = null, type: Int, user: String, password: String) {
         updateAuthenticationStates(AuthenticationState.LOADING)
 
+        when(type){
+            R.id.radio_button_okta -> oktaAuthentication(user, password)
+            R.id.radio_button_aut0 -> context?.let { auth0Authentication(it) }
+        }
+
+    }
+
+    private fun auth0Authentication(context: FragmentActivity) {
+
+        WebAuthProvider.login(account)
+            .withScheme("demo")
+            .withScope("openid profile email")
+            .start(context, object : Callback<Credentials, AuthenticationException> {
+                override fun onFailure(error: AuthenticationException) {
+                    updateAuthenticationStates(AuthenticationState.ERROR_ON_CREDENTIALS)
+                }
+
+                override fun onSuccess(result: Credentials) {
+                    updateAuthenticationStates(AuthenticationState.LOGIN_SUCCESS)
+                }
+            } )
+    }
+
+    private fun oktaAuthentication(user: String, password: String){
         externalScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 runCatching {
@@ -80,7 +116,7 @@ class AuthenticationManager @Inject constructor(
 
     fun userIsAuthenticated() = authClient.sessionClient.isAuthenticated
 
-    fun signOut() {
+    fun signOutOkta() {
         updateAuthenticationStates(AuthenticationState.LOADING)
         authClient.signOut(object :
             ResultCallback<Int, AuthorizationException> {
@@ -96,5 +132,19 @@ class AuthenticationManager @Inject constructor(
                 TODO("Not yet implemented")
             }
         })
+    }
+
+    fun signOutAuth0(context: FragmentActivity) {
+        WebAuthProvider.logout(account)
+            .withScheme("demo")
+            .start(context, object : Callback<Void?, AuthenticationException> {
+                override fun onSuccess(payload: Void?) {
+                    updateAuthenticationStates(AuthenticationState.LOGOUT_SUCCESS)
+                }
+
+                override fun onFailure(exception: AuthenticationException) {
+
+                }
+            })
     }
 }

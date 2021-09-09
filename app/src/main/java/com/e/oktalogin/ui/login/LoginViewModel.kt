@@ -1,5 +1,6 @@
 package com.e.oktalogin.ui.login
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,13 +13,18 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val authenticationManager: AuthenticationManager,
     private val applicationManager: ApplicationManager
-): ViewModel(){
+) : ViewModel() {
 
     val authenticationState = applicationManager.authenticationState
         .asLiveData(viewModelScope.coroutineContext)
 
-    fun authenticateUser(user: String, password: String){
-        authenticationManager.authenticateUser(user, password)
+    fun authenticateUser(
+        context: FragmentActivity,
+        type: Int,
+        user: String,
+        password: String
+    ) {
+        authenticationManager.authenticateUser(context, type, user, password)
     }
 
     fun userIsAuthenticated() = authenticationManager.userIsAuthenticated()

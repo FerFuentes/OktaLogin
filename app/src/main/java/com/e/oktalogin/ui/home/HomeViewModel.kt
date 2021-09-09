@@ -1,5 +1,6 @@
 package com.e.oktalogin.ui.home
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -20,6 +21,10 @@ class HomeViewModel @Inject constructor(
     )
 
     fun signOut() {
-        authenticationManager.signOut()
+        authenticationManager.signOutOkta()
+    }
+
+    fun sigOutAuth(context: FragmentActivity){
+        authenticationManager.signOutAuth0(context)
     }
 }

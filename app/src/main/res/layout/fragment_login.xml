@@ -7,6 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginFragment">
 
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/radio_button_okta"
+        app:layout_constraintBottom_toTopOf="@+id/user_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/radio_button_okta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/okta" />
+
+        <RadioButton
+            android:id="@+id/radio_button_aut0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/auth0" />
+
+    </RadioGroup>
+
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/user_field"
